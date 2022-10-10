@@ -1,0 +1,37 @@
+name: 'NVD clojure action'
+description: |
+  Run NVD clojure tool on codebase.  This action expects a leiningen
+  managed project and a .nvd-config.json file.
+
+runs:
+  using: 'composite'
+  steps:
+    - id: cache-tstamp
+      shell: bash
+      run: |
+        echo "::set-output name=out::$(/bin/date -u "+%Y%m")"
+
+    - uses: actions/cache@v3
+      with:
+        path: "~/.m2"
+        key: "${{ runner.os }}-nvd-clojure-action-${{ steps.cache-tstamp.outputs.out }}"
+
+    - uses: DeLaGuardo/setup-clojure@master
+      with: { cli: latest }
+
+    - shell: bash
+      run: |
+        clojure -Ttools install nvd-clojure/nvd-clojure '{:mvn/version "RELEASE"}' :as nvd
+
+    - id: lein-classpath
+      shell: bash
+      run: |
+        echo "::set-output name=out::$(lein classpath)"
+
+    - name: 'NVD check'
+      shell: bash
+      run: |
+        clojure -J-Dorg.slf4j.simpleLogger.defaultLogLevel=error \
+                -Tnvd nvd.task/check \
+                :classpath "\"${{ steps.lein-classpath.outputs.out }}\"" \
+                :config-filename "\".nvd-config.json\""
