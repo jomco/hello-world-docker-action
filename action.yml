@@ -1,7 +1,7 @@
 name: 'NVD clojure action'
 description: |
   Run NVD clojure tool on codebase.  This action expects a leiningen
-  managed project and a .nvd-config.json file.
+  managed project.
 
 runs:
   using: 'composite'

@@ -1,10 +1,15 @@
-#!/bin/sh -x
+#!/bin/sh -e
 
 clojure -Ttools list | grep -q '^nvd ' ||
-    clojure -Ttools install \
+    clojure -J-Dclojure.main.report=stderr \
+            -Ttools install \
             nvd-clojure/nvd-clojure '{:mvn/version "RELEASE"}' :as nvd
 
-clojure -J-Dorg.slf4j.simpleLogger.defaultLogLevel=error \
+ARGS=''
+[ -f .nvd-config.json ] && ARGS=':config-filename ".nvd-config.json"'
+
+clojure -J-Dclojure.main.report=stderr \
+        -J-Dorg.slf4j.simpleLogger.defaultLogLevel=error \
         -Tnvd nvd.task/check \
         :classpath "\"$(lein classpath)\"" \
-        :config-filename "\".nvd-config.json\""
+        $ARGS
