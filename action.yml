@@ -9,7 +9,7 @@ runs:
     - id: cache-tstamp
       shell: bash
       run: |
-        echo "::set-output name=out::$(/bin/date -u "+%Y%m")"
+        echo "::set-output name=out::$(/bin/date -u '+%Y%m')"
 
     - uses: actions/cache@v3
       with:
@@ -19,19 +19,6 @@ runs:
     - uses: DeLaGuardo/setup-clojure@master
       with: { cli: latest }
 
-    - shell: bash
-      run: |
-        clojure -Ttools install nvd-clojure/nvd-clojure '{:mvn/version "RELEASE"}' :as nvd
-
-    - id: lein-classpath
-      shell: bash
-      run: |
-        echo "::set-output name=out::$(lein classpath)"
-
     - name: 'NVD check'
       shell: bash
-      run: |
-        clojure -J-Dorg.slf4j.simpleLogger.defaultLogLevel=error \
-                -Tnvd nvd.task/check \
-                :classpath "\"${{ steps.lein-classpath.outputs.out }}\"" \
-                :config-filename "\".nvd-config.json\""
+      run: "${{ github.action_path }}/nvd-clojure.sh"
