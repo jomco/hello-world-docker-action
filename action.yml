@@ -9,7 +9,7 @@ runs:
     - id: cache-tstamp
       shell: bash
       run: |
-        echo "::set-output name=out::$(/bin/date -u '+%Y%m')"
+        echo "out=$(/bin/date -u '+%Y%m')" >> $GITHUB_OUTPUT
 
     - uses: actions/cache@v3
       with:
