@@ -8,8 +8,14 @@ clojure -Ttools list | grep -q '^nvd ' ||
 ARGS=''
 [ -f .nvd-config.json ] && ARGS=':config-filename ".nvd-config.json"'
 
+if [ -n "$1" ]; then
+    CP="$1"
+else
+    CP="$(lein with-profile provided classpath)"
+fi
+
 clojure -J-Dclojure.main.report=stderr \
         -J-Dorg.slf4j.simpleLogger.defaultLogLevel=error \
         -Tnvd nvd.task/check \
-        :classpath "\"$(lein classpath)\"" \
+        :classpath "\"$CP\"" \
         $ARGS
