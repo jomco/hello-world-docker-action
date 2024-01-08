@@ -19,6 +19,9 @@ jobs:
   deps:
     runs-on: ubuntu-latest
 
+    env:
+      NVD_API_TOKEN: ${{ secrets.NVD_API_TOKEN }}
+
     steps:
 
     - name: Checkout code
@@ -29,3 +32,12 @@ jobs:
 ```
 
 Note: the committer who touched the workflow last receives notifications when the workflow fails.
+
+You can [obtain an API
+key](https://nvd.nist.gov/developers/request-an-api-key) in a few
+minutes - it's an automated process.
+
+## Attribution
+
+This product uses the NVD API but is not endorsed or certified by the
+NVD.
