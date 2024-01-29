@@ -37,6 +37,20 @@ You can [obtain an API
 key](https://nvd.nist.gov/developers/request-an-api-key) in a few
 minutes - it's an automated process.
 
+There seems to be an issue with nvd-clojure preventing the token to be loaded from the environment when no configuration file is provided.  This action automatically picks up a configuration file named `.nvd-config.json`, please use the following:
+
+```json
+{"nvd": {"suppression-file": ".nvd-suppressions.xml"}}
+```
+
+and provide the accompanying suppressions file named `.nvd-suppressions.xml` as your start points:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
+</suppressions>
+```
+
 ## Attribution
 
 This product uses the NVD API but is not endorsed or certified by the
