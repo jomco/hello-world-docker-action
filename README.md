@@ -25,10 +25,10 @@ jobs:
     steps:
 
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: NVD clojure
-      uses: jomco/nvd-clojure-action@v0
+      uses: jomco/nvd-clojure-action@v4
 ```
 
 Note: the committer who touched the workflow last receives notifications when the workflow fails.
