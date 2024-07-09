@@ -16,6 +16,7 @@ fi
 
 clojure -J-Dclojure.main.report=stderr \
         -J-Dorg.slf4j.simpleLogger.defaultLogLevel=error \
+        -Sdeps '{:deps {org.owasp/dependency-check-maven {:mvn/version "10.0.2"}}}' \
         -Tnvd nvd.task/check \
         :classpath "\"$CP\"" \
         $ARGS
