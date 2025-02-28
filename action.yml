@@ -16,7 +16,7 @@ runs:
         path: "~/.m2"
         key: "${{ runner.os }}-nvd-clojure-action-${{ steps.cache-tstamp.outputs.out }}"
 
-    - uses: DeLaGuardo/setup-clojure@master
+    - uses: DeLaGuardo/setup-clojure@13.1
       with: { cli: latest }
 
     - name: 'NVD check'
